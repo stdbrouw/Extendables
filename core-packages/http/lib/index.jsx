@@ -347,7 +347,7 @@ function HTTPRequest (method, url, timeout) {
 		// request line
 		var head = [];
 		var url = this.url();
-		var path = url.pathname + url.search;
+		var path = url.pathname + (url.search || "");
 		var request_line = "{} {} HTTP/1.1".format(this.method(), path || "/");
 		head.push(request_line);
 		// headers to string (kv) form
