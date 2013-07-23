@@ -67,12 +67,14 @@ var TestRunner = function () {
 		return cleaned_results;
 	}
 
-
 	this.run = function () {
+		if(this.results) return this.results;
+
 		var reporter = new jasmine.JsApiReporter();
 		jasmine.getEnv().addReporter(reporter);
 		jasmine.getEnv().execute();
-		return this._clean_results(reporter.suites_, reporter.results());
+		this.results = this._clean_results(reporter.suites_, reporter.results());
+		return this.results
 	}
 
 	this.get_environment = function () {
@@ -90,10 +92,10 @@ var TestRunner = function () {
 		});
 	}
 
-	// we'll add this into the html representation, 
+	// we'll add this into the html representation,
 	// so people can upload structured test reports to our central server.
 	this.as_json = function () {
-		
+
 	}
 
 	this.print_suite = function(suite){
@@ -119,7 +121,6 @@ var TestRunner = function () {
 			self.print_suite(suite)
 		});
 	}
-
 
 	this.to_log = function () {
 		// todo

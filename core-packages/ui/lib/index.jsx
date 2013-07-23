@@ -1,4 +1,4 @@
-function EventManager (control, type) {
+﻿function EventManager (control, type) {
 	this.control = control;
 	this.type = type;
 	this.do = function (fn) {
