@@ -58,9 +58,9 @@ function UIShortcuts () {
 	 * @param {String} name The name this panel will take on within the dialog object
 	 * @param {Object} [properties] any other properties you want to pass along on creation
 	 */
-	this.panel = function (name, properties) {
+	this.panel = function (name, label, properties) {
 		var properties = properties || {};
-		return this.add_container(name, 'panel', properties);
+		return this.add_container(name, 'panel', label, properties);
 	}
 
 	/**
@@ -144,11 +144,11 @@ function UIShortcuts () {
 	}
 	/** @desc adds a tab (part of a tabs control) */
 	this.tab = function (name, text, options) {
-		return this.add_control(name, 'tab', text, options);
+		return this.add_container(name, 'tab', text, options);
 	}
 	/** @desc adds a tabs container, equivalent to ``tabbedpanel`` in plain ScriptUI */
 	this.tabs = function (name, text, options) {
-		return this.add_control(name, 'tabbedpanel', text, options);
+		return this.add_container(name, 'tabbedpanel', text, options);
 	}
 	/** @desc adds a tree, equivalent to ``treeview`` in plain ScriptUI */
 	this.tree = function (name, text, options) {
@@ -243,17 +243,17 @@ function UI () {
 		return this;
 	}
 
-	this.add_group = function (name, properties) {
-		return this.add_container(name, 'group', properties);
+	this.add_group = function (name, label, properties) {
+		return this.add_container(name, 'group', label, properties);
 	}
 
-	this.add_list = function (name, properties) {
-		return this.add_container(name, 'listbox', properties);
+	this.add_list = function (name, label, properties) {
+		return this.add_container(name, 'listbox', label, properties);
 	}
 
-	this.add_container = function (name, type, properties) {
+	this.add_container = function (name, type, label, properties) {
 		var ui = new UI();
-		ui.window = this.add_control(name, type, undefined, properties).el();
+		ui.window = this.add_control(name, type, label, properties).el();
 		ui._last_added = ui.window;
 		ui.mixins = this.mixins;
 		this[name] = ui;
