@@ -63,6 +63,7 @@ function UIShortcuts () {
 		return this.add_container(name, 'panel', label, properties);
 	}
 
+
 	/**
 	 * @desc adds a list, equivalent to ``listbox`` in plain ScriptUI
 	 * @param {String} name The name this list will take on within the dialog object
