@@ -9,3 +9,4 @@ site-packages
 *.old
 *.orig
 *(Autosaved)*
+*.sublime-*
