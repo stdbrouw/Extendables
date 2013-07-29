@@ -89,6 +89,16 @@ function UIShortcuts () {
 		return this.add_list(name, properties);
 	}
 
+	/** @desc adds a tree, equivalent to ``treeview`` in plain ScriptUI */
+	// this.tree = function (name, text, options) {
+	// 	return this.add_control(name, 'treeview', text, options);
+	// }
+
+	this.tree = function(name, properties) {
+		var properties = properties || {};
+		return this.add_tree(name, properties);
+	}
+
 	/* SIMPLE TYPES */
 
 	/** @desc adds a button */
@@ -150,10 +160,6 @@ function UIShortcuts () {
 	/** @desc adds a tabs container, equivalent to ``tabbedpanel`` in plain ScriptUI */
 	this.tabs = function (name, text, options) {
 		return this.add_container(name, 'tabbedpanel', text, options);
-	}
-	/** @desc adds a tree, equivalent to ``treeview`` in plain ScriptUI */
-	this.tree = function (name, text, options) {
-		return this.add_control(name, 'treeview', text, options);
 	}
 }
 
@@ -218,7 +224,7 @@ function UI () {
 	}
 
 	this.add_item = function (name, values) {
-		if (this[name] != undefined) throw new Error("{} is a reserved name.".format(name));
+		//if (this[name] != undefined) throw new Error("{} is a reserved name.".format(name));
 		if (!values.is(Array)) throw new TypeError("A list item expects an array of text labels, not a string");
 		var control = self.window.add('item', values.shift());
 		values.forEach(function (value, i) {
@@ -248,8 +254,12 @@ function UI () {
 		return this.add_container(name, 'group', label, properties);
 	}
 
-	this.add_list = function (name, label, properties) {
-		return this.add_container(name, 'listbox', label, properties);
+	this.add_list = function (name, properties) {
+		return this.add_container(name, 'listbox', null, properties);
+	}
+
+	this.add_tree = function (name, properties) {
+		return this.add_container(name, 'treeview', null, properties);
 	}
 
 	this.add_container = function (name, type, label, properties) {
