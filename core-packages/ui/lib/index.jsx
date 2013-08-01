@@ -106,8 +106,17 @@ function UIShortcuts () {
 		return this.add_control(name, 'button', text, options);
 	}
 	/** @desc adds a checkbox */
-	this.checkbox = function (name, text, options) {
-		return this.add_control(name, 'checkbox', text, options);
+	this.checkbox = function (name, text, value, options) {
+		if(typeof value === 'object') {
+			options = value;
+			value = false;
+		}
+		var checkbox = this.add_control(name, 'checkbox', text, options);
+		$.writeln(value)
+		$.writeln(checkbox)
+		this[name].value = value
+		return checkbox
+
 	}
 	/** @desc adds a dropdown, equivalent to ``dropdownlist`` in plain ScriptUI */
 	this.dropdown = function (name, text, options) {
