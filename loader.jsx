@@ -29,7 +29,7 @@ function extract (module_id) {
 }
 
 function _is_valid_module (file_or_folder) {
-	return file_or_folder.is(Folder) || file_or_folder.name.endswith(".jsx");
+	return file_or_folder.is(Folder) || file_or_folder.name.endswith(".jsx") || file_or_folder.name.endswith(".js");
 }
 
 function Module (file_or_folder, is_package) {	
