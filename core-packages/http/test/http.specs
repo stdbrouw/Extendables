@@ -3,7 +3,7 @@
  */
  
 describe('HTTP: url parsing', function () {	
-	var url = require("http/url");	
+	var url = require("node/url");
 
 	it('parses urls into host, pathname, port and auth parts', function () {
         var parsed_url = url.parse("http://one:two@extendables.org:80/a/path/");
