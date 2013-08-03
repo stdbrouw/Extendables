@@ -9,7 +9,7 @@ The ``http`` library allows scripts to fetch and push data from and to the inter
     #include "extendables/extendables.jsx";
     var http = require("http");
     var response = http.get("http://www.w3c.org")
-    if (response.status_code == 200) {
+    if (response.status == 200) {
         $.writeln(response.body);
     } else {
         $.writeln("Connection failed");

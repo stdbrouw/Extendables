@@ -12,11 +12,15 @@ exports.HTTPError = HTTPError;
 exports.HTTPRequest = HTTPRequest;
 
 // imports
-var url = exports.url = require("http/url");
+var url = exports.url = require("node/url");
 var ByteString = require("io/octals").ByteString;
 
 // definitions
 var HTTPError = Error.factory("HTTPError");
+//   : line endings
+var CR        = "\r";
+var LF        = "\n";
+var CRLF      = CR + LF;
 
 // basic_auth: authentication with an intranet is a common use-case
 // timeout: we want to make it easy to do long polling
@@ -209,7 +213,7 @@ function HTTPRequest (method, url, timeout) {
 	/** @desc The resource to request */
 	this.url = function (url) {
 		if (url) {
-			this._url = require("http/url").parse(url);
+			this._url = require("node/url").parse(url);
 			this.header("Host", this._url.host);
 		} else {
 			return this._url;
@@ -324,7 +328,7 @@ function HTTPRequest (method, url, timeout) {
 		}
 	}
 
-	this._encoding = "UTF-8";
+	this._encoding = "BINARY";
 	/** @desc The character encoding in which to send this request, which is also the preferred response encoding. */
 	this.encoding = function (encoding) {
 		var encodings = ['ASCII', 'BINARY', 'UTF-8'];
@@ -347,14 +351,14 @@ function HTTPRequest (method, url, timeout) {
 		// request line
 		var head = [];
 		var url = this.url();
-		var path = url.pathname + url.search;
+		var path = url.pathname + (url.search || "");
 		var request_line = "{} {} HTTP/1.1".format(this.method(), path || "/");
 		head.push(request_line);
 		// headers to string (kv) form
-		var headers = this.headers().serialize('key-value', {'separator': ': ', 'eol': '\n'});
+		var headers = this.headers().serialize('key-value', {'separator': ': ', 'eol': CRLF});
 		head.push(headers);
-		var end_of_head = "\r\n";
-		return head.join("\r\n") + end_of_head;
+		var end_of_head = CRLF;
+		return head.join(CRLF) + end_of_head;
 	}
 
 	this._build_request = function () {
@@ -429,7 +433,7 @@ function HTTPResponse (method, encoding, request) {
 	this.push = function (partial_response, eof) {
 		this._parts.push(partial_response);
 		this._eof = eof;
-		if (!this.headers && partial_response.indexOf("\n\n")) {
+		if (!this.headers && partial_response.indexOf(CRLF + CRLF)) {
 			this.process_headers();
 		}
 	}
@@ -463,7 +467,7 @@ function HTTPResponse (method, encoding, request) {
 	
 		var terminator = 1;
 		var chunk_length = parseInt(chunked_string.toString(), 16);
-		var start_of_data = chunked_string.indexAfter('\n');
+		var start_of_data = chunked_string.indexAfter(CRLF);
 		var remainder = chunked_string.substr(start_of_data);
 		var chunk = remainder.substr(0, chunk_length);
 		if (chunk_length) {
@@ -475,10 +479,10 @@ function HTTPResponse (method, encoding, request) {
 	}
 
 	this.process_headers = function () {
-		var raw_head = this._parts.join('').split('\n\n', 1)[0].split('\n');
-		var raw_headers = raw_head.slice(1).join('\n');
+		var raw_head = this._parts.join('').split(CRLF + CRLF, 1)[0].split(CRLF);
+		var raw_headers = raw_head.slice(1).join(CRLF);
 		this.status = raw_head[0].split(' ')[1].to('int');
-		this.headers = raw_headers.deserialize('key-value', {'separator': ': ', 'eol': '\n'});
+		this.headers = raw_headers.deserialize('key-value', {'separator': ': ', 'eol': CRLF});
 		// flagging chunked responses
 		if (this.headers["Transfer-Encoding"] && this.headers["Transfer-Encoding"] == "chunked") {
 			this._chunked = true;
@@ -498,7 +502,7 @@ function HTTPResponse (method, encoding, request) {
 
 	this.process = function () {
 		this.raw = this._parts.join('');
-		var start_of_body = this.raw.indexAfter('\n\n');
+		var start_of_body = this.raw.indexAfter(CRLF + CRLF);
 		this.body = this.raw.substring(start_of_body);
 		// additional processing for chunked encoding
 		if (this._chunked) this.body = this.process_chunks(this.body);
