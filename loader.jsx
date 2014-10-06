@@ -48,6 +48,24 @@ function Module (file_or_folder, is_package) {
 		} catch (error) {
 			log_buffer.push([3, "Could not fully load " + module.id + "\n" + error]);
 		}
+		if(exports.wrap_methods_with_try_catch){
+			var props = exports.keys()
+			props.forEach(function(k){
+
+				if(typeof exports[k] === 'function' && k[0].toLowerCase() === k[0]){
+					var original = exports[k]
+
+					exports[k] = function(){
+						try {
+							return original.apply(this, arguments)
+						}
+						catch(e){
+							throw e
+						}
+					}
+				}
+			})
+		}
 		return exports;
 	};
 
