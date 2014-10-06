@@ -1,7 +1,7 @@
 ﻿/**
  * @desc This method overloads :func:`Object#is` to combat a problem with some versions of ExtendScript
  * that leads to all error types being considered the base class Error. This problem makes it impossible to
- * do simple comparisons on errors, for example ``new EvalError() instanceof SyntaxError``. The previous 
+ * do simple comparisons on errors, for example ``new EvalError() instanceof SyntaxError``. The previous
  * expression should return false but will return true.
  *
  * When testing whether you're dealing with a specific kind of error, use this method, and refrain
@@ -33,6 +33,23 @@ Error.prototype.is = function (type) {
 	} else {
 		return false;
 	}
+}
+
+Error.prototype.toString = function() {
+  if (typeof this.stack === "undefined" || this.stack === null) {
+    this.stack = [];
+    // The previous line is needed because the next line may indirectly call this method.
+    this.stack = $.stack;
+  }
+  return this.formatErrorMessage();
+}
+
+Error.prototype.formatErrorMessage = function() {
+  var res = ''
+  res += this.message + '\n'
+  res += 'line: ' + this.line + ', file: ' + this.fileName + '\n'
+  res += this.stack ? this.stack : ''
+  return res;
 }
 
 /**
