@@ -112,8 +112,6 @@ function UIShortcuts () {
 			value = false;
 		}
 		var checkbox = this.add_control(name, 'checkbox', text, options);
-		$.writeln(value)
-		$.writeln(checkbox)
 		this[name].value = value
 		return checkbox
 
