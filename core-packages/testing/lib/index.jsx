@@ -117,7 +117,9 @@ var TestRunner = function () {
 		var results = this.run();
 		var self = this
 		results.forEach(function(suite) {
-			$.writeln("\nSuite: {} \tran {} tests, {} failure(s)".format(suite.name, suite.total, suite.failed));
+			var passed = suite.specs.filter(function(s){ return s.result == 'passed' }).length
+			var failed = suite.specs.filter(function(s){ return s.result != 'passed' }).length
+			$.writeln("\nSuite: {} \tran {} tests, {} failure(s)".format(suite.name, suite.total, failed));
 			self.print_suite(suite)
 		});
 	}
