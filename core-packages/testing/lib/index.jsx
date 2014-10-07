@@ -117,9 +117,9 @@ var TestRunner = function () {
 		var results = this.run();
 		var self = this
 		results.forEach(function(suite) {
-			var passed = suite.specs.filter(function(s){ return s.result == 'passed' }).length
-			var failed = suite.specs.filter(function(s){ return s.result != 'passed' }).length
-			$.writeln("\nSuite: {} \tran {} tests, {} failure(s)".format(suite.name, suite.total, failed));
+			var passed = suite.specs.filter(function(s){ return s.result == 'passed' }).length || '0';
+			var failed = suite.specs.filter(function(s){ return s.result != 'passed' }).length || '0';
+			$.writeln("\nSuite: {} \tran {} tests, {} success, {} failure(s)".format(suite.name, suite.total, passed, failed));
 			self.print_suite(suite)
 		});
 	}
