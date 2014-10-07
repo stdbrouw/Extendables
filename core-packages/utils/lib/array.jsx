@@ -8,7 +8,7 @@ var utils = require("utils/object");
  * @desc Returns the first index at which a given element can be found in the selfay, or -1 if it is not present.
  *
  * @param {Object} element
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
  */
 
@@ -47,12 +47,12 @@ exports.indexAfter = function (obj, element) {
 }
 
 /**
- * @desc Returns the last index at which a given element can be found in the selfay, 
+ * @desc Returns the last index at which a given element can be found in the selfay,
  * or -1 if it is not present. The selfay is searched backwards, starting at from_index.
  *
  * @param {Object} element
  * @param {Number} from_index
- * 
+ *
  * @see https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/lastIndexOf
  */
 
@@ -89,7 +89,7 @@ exports.lastIndexOf = function(self, elt /*, from*/)
  * @desc Tests whether all elements in the selfay pass the test implemented by the provided function.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/every
  */
 
@@ -111,7 +111,7 @@ exports.every = function(self, fun /*, thisp*/) {
 
 /**
  * @desc Creates a new selfay with all elements that pass the test implemented by the provided function.
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/filter
  */
 
@@ -140,7 +140,7 @@ exports.filter = function(self, fun /*, thisp*/)
  * @desc Executes a provided function once per selfay element.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/forEach
  */
 
@@ -162,7 +162,7 @@ exports.filter = function(self, fun /*, thisp*/)
  * @desc Creates a new selfay with the results of calling a provided function on every element in this selfay.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/map
  */
 
@@ -186,7 +186,7 @@ exports.map = function(self, fun /*, thisp*/) {
  * @desc Tests whether some element in the selfay passes the test implemented by the provided function.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some
  */
 
@@ -212,11 +212,11 @@ exports.some = function(self, fun /*, thisp*/)
 /* Javascript 1.8 Array extras, courtesy of Mozilla */
 
 /**
- * @desc Apply a function against an accumulator and 
+ * @desc Apply a function against an accumulator and
  * each value of the selfay (from left-to-right) as to reduce it to a single value.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/Reduce
  */
 
@@ -266,7 +266,7 @@ exports.some = function(self, fun /*, thisp*/)
  * as to reduce it to a single value.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/ReduceRight
  */
 
@@ -353,7 +353,7 @@ exports.max = function (self, salient) {
 	} else {
 		var mapper = salient || function (obj) { return obj; }
 	}
-	
+
 	function fn (a, b) {
 		return mapper(a) > mapper(b);
 	}
@@ -374,7 +374,7 @@ exports.min = function (self, salient) {
 	} else {
 		var mapper = salient || function (obj) { return obj; }
 	}
-	
+
 	function fn (a, b) {
 		return mapper(a) > mapper(b);
 	}
@@ -406,7 +406,7 @@ exports.sum = function (self, salient) {
 	}
 
 	var features = exports.map(self, mapper);
-	return exports.reduce(features, function (a, b) { return a + b; });	
+	return exports.reduce(features, function (a, b) { return a + b; });
 }
 
 /**
@@ -478,4 +478,10 @@ exports.last = function (self) {
 
 exports.contains = function (self, obj) {
 	return exports.indexOf(self, obj) != -1;
+}
+
+exports.log = function(self, dump) {
+  return '[' + exports.map(self, function(item) {
+    item.log ? item.inspect(dump) : item.toString()
+  }).join(', ') + ']'
 }
