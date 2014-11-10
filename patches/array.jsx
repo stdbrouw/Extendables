@@ -6,7 +6,7 @@
  * @desc Returns the first index at which a given element can be found in the array, or -1 if it is not present.
  *
  * @param {Object} element
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
  */
 
@@ -45,12 +45,12 @@ Array.prototype.indexAfter = function (element) {
 }
 
 /**
- * @desc Returns the last index at which a given element can be found in the array, 
+ * @desc Returns the last index at which a given element can be found in the array,
  * or -1 if it is not present. The array is searched backwards, starting at from_index.
  *
  * @param {Object} element
  * @param {Number} from_index
- * 
+ *
  * @see https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/lastIndexOf
  */
 
@@ -87,7 +87,7 @@ Array.prototype.indexAfter = function (element) {
  * @desc Tests whether all elements in the array pass the test implemented by the provided function.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/every
  */
 
@@ -110,7 +110,7 @@ Array.prototype.indexAfter = function (element) {
 
 /**
  * @desc Creates a new array with all elements that pass the test implemented by the provided function.
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/filter
  */
 
@@ -139,7 +139,7 @@ Array.prototype.indexAfter = function (element) {
  * @desc Executes a provided function once per array element.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/forEach
  */
 
@@ -161,7 +161,7 @@ Array.prototype.indexAfter = function (element) {
  * @desc Creates a new array with the results of calling a provided function on every element in this array.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/map
  */
 
@@ -186,7 +186,7 @@ Array.prototype.indexAfter = function (element) {
  * @desc Tests whether some element in the array passes the test implemented by the provided function.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some
  */
 
@@ -212,11 +212,11 @@ Array.prototype.indexAfter = function (element) {
 /* Javascript 1.8 Array extras, courtesy of Mozilla */
 
 /**
- * @desc Apply a function against an accumulator and 
+ * @desc Apply a function against an accumulator and
  * each value of the array (from left-to-right) as to reduce it to a single value.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/Reduce
  */
 
@@ -266,7 +266,7 @@ Array.prototype.indexAfter = function (element) {
  * as to reduce it to a single value.
  *
  * @param {Function} function
- * 
+ *
  * @see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/ReduceRight
  */
 
@@ -353,7 +353,7 @@ Array.prototype.max = function (salient) {
 	} else {
 		var mapper = salient || function (obj) { return obj; }
 	}
-	
+
 	function fn (a, b) {
 		return mapper(a) > mapper(b);
 	}
@@ -374,7 +374,7 @@ Array.prototype.min = function (salient) {
 	} else {
 		var mapper = salient || function (obj) { return obj; }
 	}
-	
+
 	function fn (a, b) {
 		return mapper(a) > mapper(b);
 	}
@@ -406,8 +406,8 @@ Array.prototype.sum = function (salient) {
 	}
 
 	var features = this.map(mapper);
-	
-	return features.reduce(function (a, b) { return a + b; });	
+
+	return features.reduce(function (a, b) { return a + b; });
 }
 
 /**
@@ -479,4 +479,14 @@ Array.prototype.last = function () {
 
 Array.prototype.contains = function (obj) {
 	return this.indexOf(obj) != -1;
+}
+
+Array.prototype.inspect = function(dump) {
+  return '[' + this.map(function(item) {
+    return item.inspect ? item.inspect(dump) : item.toString()
+  }).join(', ') + ']'
+}
+
+Array.prototype.log = function(dump) {
+  $.writeln(this.inspect(dump));
 }

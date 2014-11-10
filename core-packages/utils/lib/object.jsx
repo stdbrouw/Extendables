@@ -1,12 +1,12 @@
-﻿/* 
- * Patches for functional programming. 
- * Inspired by and sometimes copied from underscore.js 
+﻿/*
+ * Patches for functional programming.
+ * Inspired by and sometimes copied from underscore.js
  */
 
 /**
  * @desc Merge two objects together. This modifies the original object.
  * First use :func:`Object#clone` on the object if you want to keep the original object intact.
- * 
+ *
  * @param {Object} obj The object to merge into this one.
  *
  * @returns {Object} Returns the merged object (``this``);
@@ -14,7 +14,7 @@
 
 exports.merge = function (self, obj) {
 	if (!obj) return;
-	
+
 	var merged_obj = self;
 	for (var name in obj) {
 		merged_obj[name] = obj[name];
@@ -46,7 +46,7 @@ exports.clone = function (self) {
 /**
  * @desc
  *     Returns only the keys (also known as 'names') of an object or associative array.
- *     Will filter out any functions, as these are presumed to be object methods. 
+ *     Will filter out any functions, as these are presumed to be object methods.
  * @returns {Array} An array with all the keys.
  */
 
@@ -74,7 +74,7 @@ exports.values = function (self) {
 	for (var i = 0; i < keys.length; i++) {
 		values.push(self[keys[i]]);
 	}
-	
+
 	return values;
 }
 
@@ -98,8 +98,8 @@ exports.is = function(self, type) {
 exports.has = function (self, key) {
 	// could be just null or an invalid object
 	// either way, has() should return false
-	if (self == null || self[key] == null) return false; 
-	
+	if (self == null || self[key] == null) return false;
+
 	if (key in self) {
 		return new Boolean(self[key]) != false;
 	} else {
@@ -125,6 +125,11 @@ exports.has_own = function (self, key) {
  */
 
 exports.log = function (self, dump) {
+	var out = exports.inspect(self, dump);
+	return $.writeln(out);
+}
+
+exports.inspect = function(self, dump) {
 	if (dump) {
 		var props = exports.keys(self.reflect.properties);
 		for (var i = 0; i < props.length; i++) {
@@ -135,5 +140,5 @@ exports.log = function (self, dump) {
 	} else {
 		var out = self.toString();
 	}
-	return $.writeln(out);
+	return out;
 }

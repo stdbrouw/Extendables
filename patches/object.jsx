@@ -1,12 +1,12 @@
-﻿/* 
- * Patches for functional programming. 
- * Inspired by and sometimes copied from underscore.js 
+﻿/*
+ * Patches for functional programming.
+ * Inspired by and sometimes copied from underscore.js
  */
 
 /**
  * @desc Merge two objects together. This modifies the original object.
  * First use :func:`Object#clone` on the object if you want to keep the original object intact.
- * 
+ *
  * @param {Object} obj The object to merge into this one.
  *
  * @returns {Object} Returns the merged object (``this``);
@@ -14,7 +14,7 @@
 
 Object.prototype.merge = function (obj) {
 	if (!obj) return;
-	
+
 	var merged_obj = this;
 	for (var name in obj) {
 		merged_obj[name] = obj[name];
@@ -46,7 +46,7 @@ Object.prototype.clone = function () {
 /**
  * @desc
  *     Returns only the keys (also known as 'names') of an object or associative array.
- *     Will filter out any functions, as these are presumed to be object methods. 
+ *     Will filter out any functions, as these are presumed to be object methods.
  * @returns {Array} An array with all the keys.
  */
 
@@ -95,8 +95,8 @@ Object.prototype.is = function(type) {
 Object.prototype.has = function (key) {
 	// could be just null or an invalid object
 	// either way, has() should return false
-	if (this == null || this[key] == null) return false; 
-	
+	if (this == null || this[key] == null) return false;
+
 	if (key in this) {
 		return new Boolean(this[key]) != false;
 	} else {
@@ -125,10 +125,29 @@ Object.prototype.to_console = function (dump) {
 	if (dump) {
 		var obj = this;
 		var out = obj.reflect.properties.map(function (property) {
-			return property.name + "\t => " + obj[property.name]; 
+			return property.name + "\t => " + obj[property.name];
 		}).join("\n");
 	} else {
 		var out = this.toString();
 	}
 	return $.writeln(out);
+}
+
+Object.prototype.log = function (dump) {
+	var out = this.inspect(dump);
+	return $.writeln(out);
+}
+
+Object.prototype.inspect = function(dump) {
+	if (dump) {
+		var props = this.keys();
+		for (var i = 0; i < props.length; i++) {
+			var property = props[i];
+			props[i] = property + ": " + this[property];
+		}
+		var out = "{" + props.join(", ") + "}";
+	} else {
+		var out = this.toString();
+	}
+	return out;
 }

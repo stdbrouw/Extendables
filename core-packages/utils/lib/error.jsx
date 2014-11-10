@@ -1,7 +1,7 @@
 ﻿/**
  * @desc This method overloads :func:`Object#is` to combat a problem with some versions of ExtendScript
  * that leads to all error types being considered the base class Error. This problem makes it impossible to
- * do simple comparisons on errors, for example ``new EvalError() instanceof SyntaxError``. The previous 
+ * do simple comparisons on errors, for example ``new EvalError() instanceof SyntaxError``. The previous
  * expression should return false but will return true.
  *
  * When testing whether you're dealing with a specific kind of error, use this method, and refrain
