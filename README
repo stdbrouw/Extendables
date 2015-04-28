@@ -3,4 +3,5 @@ This is my fork of http://debrouwere.github.com/Extendables. See the source proj
 The difference with my fork is:
 
 * have issue tracker to track issues with Extendables framework, since the original source project has no issue tracker currently.
+
 * fix issues and offer enhancements as I get to them. See the issue tracker of open and closed issues for details. Some info might be put on the wiki as well.
