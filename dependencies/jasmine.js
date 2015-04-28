@@ -1409,6 +1409,31 @@ jasmine.Matchers.prototype.toThrow = function(expected) {
   return result;
 };
 
+/**
+ * toBeCloseTo: compares that actual is close to the value of expected, based on given precision value for number of decimal places.
+ *
+ * @param expected
+ * @param precision
+ */
+jasmine.Matchers.prototype.toBeCloseTo = function() {
+
+  function toBeCloseTo() {
+    return {
+      compare: function(actual, expected, precision) {
+        if (precision !== 0) {
+          precision = precision || 2;
+        }
+
+        return {
+          pass: Math.abs(expected - actual) < (Math.pow(10, -precision) / 2)
+        };
+      }
+    };
+  }
+
+  return toBeCloseTo;
+};
+
 jasmine.Matchers.Any = function(expectedClass) {
   this.expectedClass = expectedClass;
 };
